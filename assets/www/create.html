@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+<script type="text/javascript" charset="utf-8" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="jquery.mobile-1.2.0.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
+<script src="http://www.parsecdn.com/js/parse-1.1.11.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+function onDeviceReady()
+{
+	window.requestFileSystem(LocalFileSystem.PERSISTENT,0,gotFS,fail);
+}
+function gotFS(fileSystem)
+{
+	fileSystem.root.getDirectory("Noted",{create : true,exclusive: false});
+	var namein = document.getElementById("name").value;
+	fileSystem.root.getFile("./Noted/" + namein + ".txt",{create : true, exclusive : false},getfileEntry,null);
+}
+function fail(evt)
+{
+	console.log(evt.target.error.code);
+}
+function getfileEntry(fileEntry)
+{
+	fileEntry.createWriter(FileWriter,null);
+}
+function FileWriter(writer)
+{
+    var text = document.getElementById("textin").value;
+	writer.seek(0);
+	writer.write(text);
+}
+function initialize()
+{
+	Parse.initialize("oFG5CiePJDVj2G4YKGoRHfK1V2oOW1rPwTldYFhk", "PnlRBMFxolRbkwIJ7g7t02kG7Pj3NKgPZUHZz9ko");
+	var TestObject = Parse.Object.extend("TestObject");
+	var testObject = new TestObject();
+	var namein = document.getElementById("name").value;
+	var text = document.getElementById("textin").value;
+	testObject.set("Name", namein);
+	testObject.set("content", text);
+	testObject.set("priority", "1");
+	testObject.save(null, {
+  	success: function(testObject) 
+  	{
+    testObject.save();
+  	}
+});
+}
+</script>
+</head>
+<body>
+<div data-role="fieldcontain">
+    <label for="name">File Name :</label>
+    <input type="text" name="name" id="name" value=""  />
+</div>	
+<div data-role="fieldcontain">
+<label for="textarea">Contents :</label>
+<textarea cols="40" rows="8" name="textarea" id="textin"></textarea>
+<button onclick="document.addEventListener('deviceready',onDeviceReady,fail)">Create</button>
+<button onclick="initialize()">Parse</button>
+</div>
+</body>
+</html>
