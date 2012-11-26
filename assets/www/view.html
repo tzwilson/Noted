@@ -16,6 +16,7 @@ var query = new Parse.Query(TestObject);
 query.equalTo("priority", "1");
 query.find({success: function(results){
 	var i = 0;
+	document.open("view.html");
 	do
 	{
 		document.write("<p> File Name : " + results[i].get("Name") + "</p>");
@@ -29,10 +30,11 @@ query.find({success: function(results){
 
 }
 });
+document.close();
 }
 </script>
 </head>
 <body>
-<button onclick="parseit()">Get Data</button>
+<button onclick="parseit()">View Data</button>
 </body>
 </html>
