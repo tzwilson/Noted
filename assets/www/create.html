@@ -8,30 +8,6 @@
 <script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
 <script src="http://www.parsecdn.com/js/parse-1.1.11.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-function onDeviceReady()
-{
-	window.requestFileSystem(LocalFileSystem.PERSISTENT,0,gotFS,fail);
-}
-function gotFS(fileSystem)
-{
-	fileSystem.root.getDirectory("Noted",{create : true,exclusive: false});
-	var namein = document.getElementById("name").value;
-	fileSystem.root.getFile("./Noted/" + namein + ".txt",{create : true, exclusive : false},getfileEntry,null);
-}
-function fail(evt)
-{
-	console.log(evt.target.error.code);
-}
-function getfileEntry(fileEntry)
-{
-	fileEntry.createWriter(FileWriter,null);
-}
-function FileWriter(writer)
-{
-    var text = document.getElementById("textin").value;
-	writer.seek(0);
-	writer.write(text);
-}
 function initialize()
 {
 	Parse.initialize("oFG5CiePJDVj2G4YKGoRHfK1V2oOW1rPwTldYFhk", "PnlRBMFxolRbkwIJ7g7t02kG7Pj3NKgPZUHZz9ko");
@@ -59,7 +35,6 @@ function initialize()
 <div data-role="fieldcontain">
 <label for="textarea">Contents :</label>
 <textarea cols="40" rows="8" name="textarea" id="textin"></textarea>
-<button onclick="document.addEventListener('deviceready',onDeviceReady,fail)">Local Storage</button>
 <button onclick="initialize()">Cloud Storage</button>
 </div>
 </body>

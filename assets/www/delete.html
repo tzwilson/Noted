@@ -5,23 +5,22 @@
 <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
 <script type="text/javascript" charset="utf-8" src="jquery-1.8.2.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.2.0.min.js"></script>
-<script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
+<script type="text/javascript" charset="utf-8" src="cordovahelper.js"></script>
 <script src="http://www.parsecdn.com/js/parse-1.1.11.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-function parseit()
+function deleteit()
 {
 Parse.initialize("oFG5CiePJDVj2G4YKGoRHfK1V2oOW1rPwTldYFhk", "PnlRBMFxolRbkwIJ7g7t02kG7Pj3NKgPZUHZz9ko");
 var TestObject = Parse.Object.extend("TestObject");
 var query = new Parse.Query(TestObject);
-query.equalTo("priority", "1");
+var searchitem = document.getElementById("dparam").value;
+query.equalTo("Name", searchitem);
 query.find({success: function(results){
 	var i = 0;
-	document.open("view.html");
+	document.open("delete.html");
 	do
 	{
-		document.write("<p> File Name : " + results[i].get("Name") + "</p>");
-		document.write("<p> Content   : " + results[i].get("content") + "</p>");
-		document.write("<p> Created   : " + results[i].createdAt + "</p>");
+		results[i].destroy();
 		i++;
 	}
 	while(i< results.length)
@@ -35,8 +34,10 @@ document.close();
 </script>
 </head>
 <body>
-<button onclick="parseit()">View Data</button>
-<a href="search.html" data-ajax="false" data-transition="slide" data-role="button">Search Data</a>
-<a href="delete.html" data-ajax="false" data-transition="slide" data-role="button">Delete Data</a>
+<div data-role="fieldcontain">
+    <label for="dparams">File Name :</label>
+    <input type="text" name="dparams" id="dparam" value=""  />
+</div>
+<button onclick="deleteit()">Delete</button>
 </body>
 </html>
