@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+<script type="text/javascript" charset="utf-8" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="jquery.mobile-1.2.0.min.js"></script>
+<script src="http://www.parsecdn.com/js/parse-1.1.11.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+function register()
+{
+	Parse.initialize("oFG5CiePJDVj2G4YKGoRHfK1V2oOW1rPwTldYFhk", "PnlRBMFxolRbkwIJ7g7t02kG7Pj3NKgPZUHZz9ko");
+	var user = new Parse.User();
+	var userstring = document.getElementById("uname").value;
+	var passstring = document.getElementById("upass").value;
+	user.set("username",userstring);
+	user.set("password",passstring);
+	user.signUp(null, {
+  	success: function(user) {
+    alert("Registration Successful");
+  	},
+  	error: function(user, error) {
+    // Show the error message somewhere and let the user try again.
+    alert("Error: " + error.code + " " + error.message);
+  	}
+	});
+}
+</script>
+</head>
+<body>
+<div data-role="fieldcontain">
+    <label for="uname">User Name :</label>
+    <input type="text" name="uname" id="uname" value=""  />
+    <label for="upass">Password :</label>
+    <input type="text" name="upass" id="upass" value=""  />
+</div>
+<button onclick="register()">Register</button>
+</body>
+</html>
