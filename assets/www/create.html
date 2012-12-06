@@ -32,8 +32,34 @@ function initialize()
 	} else 
 	{
        alert("You Are Not Logged In");
-       alert("Unable To Store File");
+       alert("Unable To Store File, Use Local Storage Or Log In");
 	}
+}
+function onDeviceReady()
+{
+	window.requestFileSystem(LocalFileSystem.PERSISTENT,0,onFS,null);
+}
+function onFS(FS)
+{
+	var namein = document.getElementById("name").value;
+	var content = document.getElementById("textin".value);
+	FS.root.getDirectory("Noted",{create : true,exclusive : false});
+	FS.root.getFile("./Noted/" + namein + ".txt",{create : true, exclusive : false},getfileEntry,null);
+}
+function getfileEntry(fileEntry)
+{
+	fileEntry.createWriter(FileWriter,null);
+}
+function FileWriter(writer)
+{
+ 	var text = document.getElementById("textin").value;
+	writer.seek(0);
+	writer.write(text);
+	alert("File Write Successful");
+}
+function localsave()
+{
+	document.addEventListener("deviceready",onDeviceReady,false);
 }
 </script>
 </head>
@@ -48,6 +74,7 @@ function initialize()
 <label for="textarea">Contents :</label>
 <textarea cols="40" rows="8" name="textarea" id="textin"></textarea>
 <button onclick="initialize()">Cloud Storage</button>
+<button onclick="localsave()">Local Storage</button>
 </div>
 </div>
 </body>

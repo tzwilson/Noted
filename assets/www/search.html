@@ -24,6 +24,7 @@ if (currentUser)
 	query.find({success: function(results){
 	var i = 0;
 	document.open("search.html");
+	document.writeln("<h1 style=&quotfont-size:20px;&quot>Noted</h1>");
 	do
 	{
 		document.write("<p> File Name : " + results[i].get("Name") + "</p>");
