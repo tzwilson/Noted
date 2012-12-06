@@ -3,6 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+<link rel="stylesheet" href="themes/dark.min.css" />
 <script type="text/javascript" charset="utf-8" src="jquery-1.8.2.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.2.0.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
@@ -10,31 +11,41 @@
 <script type="text/javascript" charset="utf-8">
 function parseit()
 {
-Parse.initialize("oFG5CiePJDVj2G4YKGoRHfK1V2oOW1rPwTldYFhk", "PnlRBMFxolRbkwIJ7g7t02kG7Pj3NKgPZUHZz9ko");
-var TestObject = Parse.Object.extend("TestObject");
-var query = new Parse.Query(TestObject);
-query.equalTo("priority", "1");
-query.find({success: function(results){
-	var i = 0;
-	document.open("view.html");
-	do
+	Parse.initialize("oFG5CiePJDVj2G4YKGoRHfK1V2oOW1rPwTldYFhk", "PnlRBMFxolRbkwIJ7g7t02kG7Pj3NKgPZUHZz9ko");
+	var currentUser = Parse.User.current();
+	if (currentUser) 
 	{
-		document.write("<p> File Name : " + results[i].get("Name") + "</p>");
-		document.write("<p> Content   : " + results[i].get("content") + "</p>");
-		document.write("<p> Created   : " + results[i].createdAt + "</p>");
-		i++;
-	}
-	while(i< results.length)
-}, error: function(error)
-{
+   		var TestObject = Parse.Object.extend("TestObject");
+		var query = new Parse.Query(TestObject);
+		query.equalTo("User", currentUser);
+		query.find({success: function(results){
+		var i = 0;
+		document.open("results.html");
+		document.writeln("<h1 style=&quotfont-size:20px;&quot>Noted</h1>");
+		do
+		{
+			document.write("<p> File Name : " + results[i].get("Name") + "</p>");
+			document.write("<p> Content   : " + results[i].get("content") + "</p>");
+			document.write("<p> Created   : " + results[i].createdAt + "</p>");
+			i++;
+		}
+		while(i< results.length)
+		}, error: function(error)
+		{
 
-}
-});
-document.close();
+		}
+		});
+			document.write("</div>");
+			document.close();
+		} else 
+		{
+		   alert("Not Logged In");
+		}
 }
 </script>
 </head>
 <body>
+<div data-role="header" data-theme="c"><h1 style="font-size:20px;">Noted</h1></div>
 <button onclick="parseit()">View Data</button>
 <a href="search.html" data-ajax="false" data-transition="slide" data-role="button">Search Data</a>
 <a href="delete.html" data-ajax="false" data-transition="slide" data-role="button">Delete Data</a>

@@ -3,6 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+<link rel="stylesheet" href="themes/dark.min.css" />
 <script type="text/javascript" charset="utf-8" src="jquery-1.8.2.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.2.0.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
@@ -14,20 +15,31 @@ function initialize()
 	var TestObject = Parse.Object.extend("TestObject");
 	var testObject = new TestObject();
 	var namein = document.getElementById("name").value;
-	var text = document.getElementById("textin").value;
-	testObject.set("Name", namein);
-	testObject.set("content", text);
-	testObject.set("priority", "1");
-	testObject.save(null, {
-  	success: function(testObject) 
-  	{
-    testObject.save();
-  	}
-});
+	var content = document.getElementById("textin").value;
+	var currentUser = Parse.User.current();
+	if (currentUser) 
+	{
+		testObject.set("User",currentUser);
+		testObject.set("Name",namein);
+		testObject.set("content",content);
+		testObject.save(null, {
+  		success: function(testObject)
+  		{
+    	testObject.save();
+  		}
+		});
+		alert("File Created Successfully");
+	} else 
+	{
+       alert("You Are Not Logged In");
+       alert("Unable To Store File");
+	}
 }
 </script>
 </head>
 <body>
+<div data-role="page" id="createpage" data-theme="c">
+<div data-role="header" data-theme="c"><h1 style="font-size:20px;">Noted</h1></div>
 <div data-role="fieldcontain">
     <label for="name">File Name :</label>
     <input type="text" name="name" id="name" value=""  />
@@ -36,6 +48,7 @@ function initialize()
 <label for="textarea">Contents :</label>
 <textarea cols="40" rows="8" name="textarea" id="textin"></textarea>
 <button onclick="initialize()">Cloud Storage</button>
+</div>
 </div>
 </body>
 </html>

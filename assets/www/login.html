@@ -4,10 +4,33 @@
 <title>Noted</title>
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+<link rel="stylesheet" href="themes/dark.min.css" />
 <script type="text/javascript" charset="utf-8" src="jquery-1.8.2.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="jquery.mobile-1.2.0.min.js"></script>
+<script src="http://www.parsecdn.com/js/parse-1.1.11.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+function login()
+{
+	Parse.initialize("oFG5CiePJDVj2G4YKGoRHfK1V2oOW1rPwTldYFhk", "PnlRBMFxolRbkwIJ7g7t02kG7Pj3NKgPZUHZz9ko");
+	var usern = document.getElementById("username").value;
+	var passw = document.getElementById("userpass").value;
+	Parse.User.logIn(usern, passw, {
+  	success: function(user) {
+  		alert("Logged In");
+  	},
+  	error: function(user, error) {
+  	}
+	});
+}
+</script>
 </head>
 <body>
-<h1>Login Not Working Yet<h1>
+<div data-role="fieldcontain">
+    <label for="uname">User Name :</label>
+    <input type="text" name="uname" id="username" value=""  />
+    <label for="upass">Password :</label>
+    <input type="text" name="upass" id="userpass" value=""  />
+</div>
+<button onclick="login()">Log In</button>
 </body>
 </html>
